@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Application</title>
+    <style>
+        /* Add CSS styles for your quiz here */
+    </style>
+</head>
+<body>
+    <h1>Quiz Application</h1>
+    <div id="question-container">
+        <p id="question">Question goes here.</p>
+        <form id="answer-form">
+            <input type="radio" name="answer" value="A" id="answerA"> <label for="answerA" id="labelA">Answer A</label><br>
+            <input type="radio" name="answer" value="B" id="answerB"> <label for="answerB" id="labelB">Answer B</label><br>
+            <input type="radio" name="answer" value="C" id="answerC"> <label for="answerC" id="labelC">Answer C</label><br>
+            <input type="radio" name="answer" value="D" id="answerD"> <label for="answerD" id="labelD">Answer D</label><br>
+        </form>
+        <button id="submit-button">Submit</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        // Define quiz questions and answers
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: {
+                    A: "Madrid",
+                    B: "Rome",
+                    C: "Paris",
+                    D: "Berlin"
+                },
+                correctAnswer: "C"
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: {
+                    A: "Venus",
+                    B: "Mars",
+                    C: "Jupiter",
+                    D: "Saturn"
+                },
+                correctAnswer: "B"
+            }
+            // Add more questions here
+        ];
+
+        // Variables to keep track of the current question and user's score
+        let currentQuestion = 0;
+        let score = 0;
+
+        // References to HTML elements
+        const questionContainer = document.getElementById("question-container");
+        const questionText = document.getElementById("question");
+        const answerForm = document.getElementById("answer-form");
+        const submitButton = document.getElementById("submit-button");
+        const result = document.getElementById("result");
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (currentQuestion < questions.length) {
+                const currentQuestionData = questions[currentQuestion];
+                questionText.textContent = currentQuestionData.question;
+                for (let option in currentQuestionData.options) {
+                    document.getElementById(`label${option}`).textContent = currentQuestionData.options[option];
+                }
+            } else {
+                // Quiz is complete, show the score
+                questionContainer.style.display = "none";
+                result.textContent = `Quiz Complete! Your Score: ${score} out of ${questions.length}`;
+            }
+        }
+
+        // Event listener for the submit button
+        submitButton.addEventListener("click", () => {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer) {
+                if (selectedAnswer.value === questions[currentQuestion].correctAnswer) {
+                    score++;
+                }
+                currentQuestion++;
+                answerForm.reset();
+                displayQuestion();
+            }
+        });
+
+        // Initial display of the first question
+        displayQuestion();
+    </script>
+</body>
+</html>
